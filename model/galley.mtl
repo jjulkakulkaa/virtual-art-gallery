@@ -1,0 +1,74 @@
+# Blender MTL File: 'None'
+# Material Count: 6
+
+newmtl M_Ship11_Cannon
+Ns 256.000003
+Ka 1.000000 1.000000 1.000000
+Kd 0.480000 0.480000 0.480000
+Ks 0.040000 0.040000 0.040000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Cannon_Normal.png
+map_Kd C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Cannon_Diffuse.png
+
+newmtl M_Ship11_Metal
+Ns 256.000003
+Ka 1.000000 1.000000 1.000000
+Kd 0.480000 0.480000 0.480000
+Ks 0.040000 0.040000 0.040000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Metal_Normal.png
+map_Kd C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Metal_Diffuse.png
+
+newmtl M_Ship11_Planks
+Ns 256.000003
+Ka 1.000000 1.000000 1.000000
+Kd 0.480000 0.480000 0.480000
+Ks 0.040000 0.040000 0.040000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Planks_Normal.png
+map_Kd C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Planks_Diffuse.png
+
+newmtl M_Ship11_Rope
+Ns 256.000003
+Ka 1.000000 1.000000 1.000000
+Kd 0.480000 0.480000 0.480000
+Ks 0.040000 0.040000 0.040000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Rope_01_Normal.png
+map_Kd C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Rope_01_Diffuse.png
+
+newmtl M_Ship11_Sail
+Ns 256.000003
+Ka 1.000000 1.000000 1.000000
+Kd 0.480000 0.480000 0.480000
+Ks 0.040000 0.040000 0.040000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Sail_Normal.png
+map_Kd C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_Sail_Diffuse.png
+
+newmtl M_Ship11_WoodPlain
+Ns 256.000003
+Ka 1.000000 1.000000 1.000000
+Kd 0.480000 0.480000 0.480000
+Ks 0.040000 0.040000 0.040000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_WoodPlain_Normal.png
+map_Kd C:\\Users\\karko\\OneDrive\\Pulpit\\studia\\semestr 4\\grafika\\modele\\swedish-chapman-type-gun-yawl\\source\\ZOAN Helsinki - Ship11\\Ship11\\T_Ship11_WoodPlain_Diffuse.png

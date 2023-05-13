@@ -22,13 +22,14 @@
     <ClInclude Include="allmodels.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="cube.h" />
+    <ClInclude Include="customModel.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="shaderprogram.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="teapot.h" />
     <ClInclude Include="torus.h" />
-	<ClInclude Include="myCube.h" />
+    <ClInclude Include="myCube.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cube.cpp" />
@@ -42,47 +43,47 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="f_constant.glsl" />
-	<None Include="f_colored.glsl" />
+    <None Include="f_colored.glsl" />
     <None Include="f_lambert.glsl" />
-	<None Include="f_lamberttextured.glsl" />
-	<None Include="f_textured.glsl" />
+    <None Include="f_lamberttextured.glsl" />
+    <None Include="f_textured.glsl" />
     <None Include="v_constant.glsl" />
-	<None Include="v_colored.glsl" />
+    <None Include="v_colored.glsl" />
     <None Include="v_lambert.glsl" />
-	<None Include="v_lamberttextured.glsl" />
-	<None Include="v_textured.glsl" />
+    <None Include="v_lamberttextured.glsl" />
+    <None Include="v_textured.glsl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{7288C82C-3F3E-4501-8878-A310FCA284FE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>bioszkielet07win</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -140,15 +141,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>glew\include;glfw\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>assimp\include;glew\include;glfw\include;.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>glew\lib\x64;glfw\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>assimp\lib;glew\lib\x64;glfw\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>MSVCRT;LIBCMT;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>

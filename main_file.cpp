@@ -31,11 +31,15 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "allmodels.h"
 #include "lodepng.h"
 #include "shaderprogram.h"
+#include "customModel.h"
 
 float speed_x = 0;//[radiany/s]
 float speed_y = 0;//[radiany/s]
+float aspectRatio = 1;
 
-GLuint tex;
+CustomModel leftOar("./model/left_oar.obj");
+CustomModel rigtOar("./model/right_oar.obj");
+CustomModel Galley("./model/galley.obj");
 
 //Procedura obsługi błędów
 void error_callback(int error, const char* description) {
@@ -73,27 +77,10 @@ void key_callback(
 	}
 }
 
-GLuint readTexture(const char* filename) {
-	GLuint tex;
-	glActiveTexture(GL_TEXTURE0);
-
-	//Wczytanie do pamięci komputera
-	std::vector<unsigned char> image;   //Alokuj wektor do wczytania obrazka
-	unsigned width, height;   //Zmienne do których wczytamy wymiary obrazka
-	//Wczytaj obrazek
-	unsigned error = lodepng::decode(image, width, height, filename);
-
-	//Import do pamięci karty graficznej
-	glGenTextures(1, &tex); //Zainicjuj jeden uchwyt
-	glBindTexture(GL_TEXTURE_2D, tex); //Uaktywnij uchwyt
-	//Wczytaj obrazek do pamięci KG skojarzonej z uchwytem
-	glTexImage2D(GL_TEXTURE_2D, 0, 4, width, height, 0,
-		GL_RGBA, GL_UNSIGNED_BYTE, (unsigned char*)image.data());
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	return tex;
+void windowResizeCallback(GLFWwindow* window, int width, int height) {
+	if (height == 0) return;
+	aspectRatio = (float)width / (float)height;
+	glViewport(0, 0, width, height);
 }
 
 //Procedura inicjująca
@@ -103,125 +90,18 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glClearColor(0, 0, 0, 1); //Ustaw kolor czyszczenia bufora kolorów
 	glEnable(GL_DEPTH_TEST); //Włącz test głębokości na pikselach
 	glfwSetKeyCallback(window, key_callback);
-	tex = readTexture("bricks.png");
+	glfwSetWindowSizeCallback(window, windowResizeCallback);
+	leftOar.loadModel();
+	rigtOar.loadModel();
+	Galley.loadModel();
 }
 
 
 //Zwolnienie zasobów zajętych przez program
 void freeOpenGLProgram(GLFWwindow* window) {
     freeShaders();
-    //************Tutaj umieszczaj kod, który należy wykonać po zakończeniu pętli głównej************
-	glDeleteTextures(1, &tex);
 }
 
-void ptica(glm::mat4 P, glm::mat4 V, glm::mat4 M) {
-	//Przykładowe tablice dla tego zadania - możliwości jest bardzo dużo
-	float birdVertices[] = {
-		0,1,1,1,
-		1,0,0,1,
-		0,1,-1,1,
-
-		0,1,1,1,
-		0,1,-1,1,
-		-1,0,0,1
-	};
-
-	float birdColors[] = {
-		1,0,0,1,
-		0,1,0,1,
-		1,0,0,1,
-
-		1,0,0,1,
-		1,0,0,1,
-		0,0,1,1
-	};
-
-	spColored->use(); //Aktywuj program cieniujący
-	
-	glUniformMatrix4fv(spColored->u("P"), 1, false, glm::value_ptr(P)); //Załaduj do programu cieniującego macierz rzutowania
-	glUniformMatrix4fv(spColored->u("V"), 1, false, glm::value_ptr(V)); //Załaduj do programu cieniującego macierz widoku
-	glUniformMatrix4fv(spColored->u("M"), 1, false, glm::value_ptr(M)); //Załaduj do programu cieniującego macierz modelu
-	
-
-	glEnableVertexAttribArray(spColored->a("vertex"));
-	glVertexAttribPointer(spColored->a("vertex"), 4, GL_FLOAT, false, 0, birdVertices); //Współrzędne wierzchołków bierz z tablicy birdVertices
-
-	glEnableVertexAttribArray(spColored->a("color"));
-	glVertexAttribPointer(spColored->a("color"), 4, GL_FLOAT, false, 0, birdColors); //Współrzędne wierzchołków bierz z tablicy birdColors
-
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-
-	glDisableVertexAttribArray(spColored->a("vertex"));
-	glDisableVertexAttribArray(spColored->a("color"));
-	
-}
-
-
-void kostka(glm::mat4 P, glm::mat4 V, glm::mat4 M) {
-	spColored->use(); //Aktywuj program cieniujący
-
-	glUniformMatrix4fv(spColored->u("P"), 1, false, glm::value_ptr(P)); //Załaduj do programu cieniującego macierz rzutowania
-	glUniformMatrix4fv(spColored->u("V"), 1, false, glm::value_ptr(V)); //Załaduj do programu cieniującego macierz widoku
-	glUniformMatrix4fv(spColored->u("M"), 1, false, glm::value_ptr(M)); //Załaduj do programu cieniującego macierz modelu
-
-
-	glEnableVertexAttribArray(spColored->a("vertex"));
-	glVertexAttribPointer(spColored->a("vertex"), 4, GL_FLOAT, false, 0, myCubeVertices); //Współrzędne wierzchołków bierz z tablicy birdVertices
-
-	glEnableVertexAttribArray(spColored->a("color"));
-	glVertexAttribPointer(spColored->a("color"), 4, GL_FLOAT, false, 0, myCubeColors); //Współrzędne wierzchołków bierz z tablicy birdColors
-
-	glDrawArrays(GL_TRIANGLES, 0, myCubeVertexCount);
-
-	glDisableVertexAttribArray(spColored->a("vertex"));
-	glDisableVertexAttribArray(spColored->a("color"));
-}
-
-void texKostka(glm::mat4 P, glm::mat4 V, glm::mat4 M) {
-	//Tablica ta raczej powinna znaleźć się w pliku myCube.h, ale umieściłem ją tutaj, żeby w tej procedurze zawrzeć (prawie) całe rozwiązanie zadania
-	//Reszta to wczytanie tekstury - czyli kawałki kodu, które trzeba przekopiować ze slajdów
-	float myCubeTexCoords[] = {
-		1.0f, 0.0f,	  0.0f, 1.0f,    0.0f, 0.0f,  
-		1.0f, 0.0f,   1.0f, 1.0f,    0.0f, 1.0f,    
-
-		1.0f, 0.0f,	  0.0f, 1.0f,    0.0f, 0.0f,
-		1.0f, 0.0f,   1.0f, 1.0f,    0.0f, 1.0f,
-
-		1.0f, 0.0f,	  0.0f, 1.0f,    0.0f, 0.0f,
-		1.0f, 0.0f,   1.0f, 1.0f,    0.0f, 1.0f,
-
-		1.0f, 0.0f,	  0.0f, 1.0f,    0.0f, 0.0f,
-		1.0f, 0.0f,   1.0f, 1.0f,    0.0f, 1.0f,
-
-		1.0f, 0.0f,	  0.0f, 1.0f,    0.0f, 0.0f,
-		1.0f, 0.0f,   1.0f, 1.0f,    0.0f, 1.0f,
-
-		1.0f, 0.0f,	  0.0f, 1.0f,    0.0f, 0.0f,
-		1.0f, 0.0f,   1.0f, 1.0f,    0.0f, 1.0f,
-	};
-
-	spTextured->use(); //Aktywuj program cieniujący
-
-	glUniformMatrix4fv(spTextured->u("P"), 1, false, glm::value_ptr(P)); //Załaduj do programu cieniującego macierz rzutowania
-	glUniformMatrix4fv(spTextured->u("V"), 1, false, glm::value_ptr(V)); //Załaduj do programu cieniującego macierz widoku
-	glUniformMatrix4fv(spTextured->u("M"), 1, false, glm::value_ptr(M)); //Załaduj do programu cieniującego macierz modelu
-
-
-	glEnableVertexAttribArray(spTextured->a("vertex"));
-	glVertexAttribPointer(spTextured->a("vertex"), 4, GL_FLOAT, false, 0, myCubeVertices); //Współrzędne wierzchołków bierz z tablicy myCubeVertices
-
-	glEnableVertexAttribArray(spTextured->a("texCoord"));
-	glVertexAttribPointer(spTextured->a("texCoord"), 2, GL_FLOAT, false, 0, myCubeTexCoords); //Współrzędne teksturowania bierz z tablicy myCubeTexCoords
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, tex);
-	glUniform1i(spTextured->u("tex"), 0);
-
-	glDrawArrays(GL_TRIANGLES, 0, myCubeVertexCount);
-
-	glDisableVertexAttribArray(spTextured->a("vertex"));
-	glDisableVertexAttribArray(spTextured->a("color"));
-}
 
 
 //Procedura rysująca zawartość sceny
@@ -232,13 +112,14 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
 	glm::mat4 M = glm::mat4(1.0f); //Zainicjuj macierz modelu macierzą jednostkową
 	M = glm::rotate(M, angle_y, glm::vec3(0.0f, 1.0f, 0.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi Y
 	M = glm::rotate(M, angle_x, glm::vec3(1.0f, 0.0f, 0.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi X
-	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Wylicz macierz widoku
-	glm::mat4 P = glm::perspective(glm::radians(50.0f), 1.0f, 1.0f, 50.0f); //Wylicz macierz rzutowania
+	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 10.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Wylicz macierz widoku
+	glm::mat4 P = glm::perspective(50.0f * PI / 180.0f, aspectRatio, 0.01f, 50.0f);  //Wylicz macierz rzutowania
+	M = glm::scale(M, glm::vec3(0.01f, 0.01f, 0.01f));
+
+	Galley.draw(P, V, M);
+	leftOar.draw(P, V, M);
+	rigtOar.draw(P, V, M);
 	
-	
-	//ptica(P, V, M);
-	//kostka(P, V, M);
-	texKostka(P, V, M);
 
 	glfwSwapBuffers(window); //Skopiuj bufor tylny do bufora przedniego
 }
