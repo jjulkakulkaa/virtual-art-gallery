@@ -37,8 +37,7 @@ float speed_x = 0;//[radiany/s]
 float speed_y = 0;//[radiany/s]
 float aspectRatio = 1;
 
-CustomModel leftOar("./model/left_oar.obj");
-CustomModel rigtOar("./model/right_oar.obj");
+CustomModel Oar("./model/oar.obj");
 CustomModel Galley("./model/galley.obj");
 
 //Procedura obsługi błędów
@@ -91,8 +90,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glEnable(GL_DEPTH_TEST); //Włącz test głębokości na pikselach
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetWindowSizeCallback(window, windowResizeCallback);
-	leftOar.loadModel();
-	rigtOar.loadModel();
+	Oar.loadModel();
 	Galley.loadModel();
 }
 
@@ -109,17 +107,32 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
 	//************Tutaj umieszczaj kod rysujący obraz******************l
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Wyczyść bufor koloru i bufor głębokości
 	
-	glm::mat4 M = glm::mat4(1.0f); //Zainicjuj macierz modelu macierzą jednostkową
-	M = glm::rotate(M, angle_y, glm::vec3(0.0f, 1.0f, 0.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi Y
-	M = glm::rotate(M, angle_x, glm::vec3(1.0f, 0.0f, 0.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi X
-	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 10.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Wylicz macierz widoku
+	glm::mat4 galleyMatrix = glm::mat4(1.0f); //Zainicjuj macierz modelu macierzą jednostkową
+	galleyMatrix = glm::rotate(galleyMatrix, angle_y, glm::vec3(0.0f, 1.0f, 0.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi Y
+	galleyMatrix = glm::rotate(galleyMatrix, angle_x, glm::vec3(0.0f, 0.0f, 1.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi X
+	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 10.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Wylicz macierz widoku
 	glm::mat4 P = glm::perspective(50.0f * PI / 180.0f, aspectRatio, 0.01f, 50.0f);  //Wylicz macierz rzutowania
-	M = glm::scale(M, glm::vec3(0.01f, 0.01f, 0.01f));
+	galleyMatrix = glm::scale(galleyMatrix, glm::vec3(0.02f, 0.02f, 0.02f));
 
-	Galley.draw(P, V, M);
-	leftOar.draw(P, V, M);
-	rigtOar.draw(P, V, M);
-	
+	Galley.draw(P, V, galleyMatrix);
+	glm::mat4 leftOarMatrix = galleyMatrix;
+	glm::mat4 rightOarMatrix = glm::rotate(leftOarMatrix, PI, glm::vec3(0.0f, 1.0f, 0.0f));
+	for (int i = 0; i < 7; i++) {
+		if (i == 0) {
+			leftOarMatrix = glm::translate(leftOarMatrix, glm::vec3(-169.0f, 88.0f, 53.0f));
+			rightOarMatrix = glm::translate(rightOarMatrix, glm::vec3(-167.0f, 88.0f, -53.0f));
+		}
+		else {
+			leftOarMatrix = glm::translate(leftOarMatrix, glm::vec3(0.0f, 0.0f + i * 1.3f, -97.0f + i * 1.3f));
+			rightOarMatrix = glm::translate(rightOarMatrix, glm::vec3(0.0f, 0.0f + i * 1.3f, 97.0f));
+		}
+		glm::mat4 rotatedLeftOarMatrix = glm::rotate(leftOarMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 rotatedRightOarMatrix = glm::rotate(rightOarMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
+		Oar.draw(P, V, rotatedLeftOarMatrix);
+		Oar.draw(P, V, rotatedRightOarMatrix);
+		
+	}
+
 
 	glfwSwapBuffers(window); //Skopiuj bufor tylny do bufora przedniego
 }
@@ -136,7 +149,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	window = glfwCreateWindow(500, 500, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
+	window = glfwCreateWindow(1024, 1024, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
 
 	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
 	{

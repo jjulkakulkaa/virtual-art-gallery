@@ -5,6 +5,6 @@ C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\customModel.h(84
 C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\customModel.h(86,39): warning C4018: '<': signed/unsigned mismatch
 C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\customModel.h(93,35): warning C4018: '<': signed/unsigned mismatch
 C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\customModel.h(124,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\main_file.cpp(164,22): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\main_file.cpp(165,22): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\main_file.cpp(177,22): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\main_file.cpp(178,22): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
   bio_szkielet_07_win.vcxproj -> C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\x64\Debug\bio_szkielet_07_win.exe
