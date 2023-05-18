@@ -35,7 +35,10 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 
 float speed_x = 0;//[radiany/s]
 float speed_y = 0;//[radiany/s]
+float leftOarsSpeed = 0;
+float rightOarsSpeed = 0;
 float aspectRatio = 1;
+float targetSpeedOfOars = PI / 2;
 
 CustomModel Oar("./model/oar.obj");
 CustomModel Galley("./model/galley.obj");
@@ -65,6 +68,26 @@ void key_callback(
 		if (key == GLFW_KEY_DOWN) {
 			speed_x = PI;
 		}
+		if (key == GLFW_KEY_A) {
+			leftOarsSpeed = targetSpeedOfOars;
+		}
+		if (key == GLFW_KEY_Z) {
+			leftOarsSpeed = -targetSpeedOfOars;
+		}
+		if (key == GLFW_KEY_D) {
+			rightOarsSpeed = targetSpeedOfOars;
+		}
+		if (key == GLFW_KEY_C) {
+			rightOarsSpeed = -targetSpeedOfOars;
+		}
+		if (key == GLFW_KEY_W) {
+			leftOarsSpeed = targetSpeedOfOars;
+			rightOarsSpeed = targetSpeedOfOars;
+		}
+		if (key == GLFW_KEY_S) {
+			leftOarsSpeed = -targetSpeedOfOars;
+			rightOarsSpeed = -targetSpeedOfOars;
+		}
 	}
 	if (action == GLFW_RELEASE) {
 		if (key == GLFW_KEY_LEFT || key == GLFW_KEY_RIGHT) {
@@ -72,6 +95,16 @@ void key_callback(
 		}
 		if (key == GLFW_KEY_UP || key == GLFW_KEY_DOWN) {
 			speed_x = 0;
+		}
+		if (key == GLFW_KEY_A || key == GLFW_KEY_Z) {
+			leftOarsSpeed = 0;
+		}
+		if (key == GLFW_KEY_D || key == GLFW_KEY_C) {
+			rightOarsSpeed = 0;
+		}
+		if (key == GLFW_KEY_W || key == GLFW_KEY_S) {
+			leftOarsSpeed = 0;
+			rightOarsSpeed = 0;
 		}
 	}
 }
@@ -102,8 +135,64 @@ void freeOpenGLProgram(GLFWwindow* window) {
 
 
 
+glm::mat4 rotateRightOars(float angle, glm::mat4 modelMatrix) {
+
+	angle = fmod(angle, PI);
+
+	if (angle > 0 && angle <= PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, angle, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else if (angle > PI / 6 && angle <= 2 * PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, angle - (PI / 6), glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+	else if (angle > 2 * PI / 6 && angle <= 4 * PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, -(angle - (2 * PI / 6)), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+	else if (angle > 4 * PI / 6 && angle <= 5 * PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, -PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, PI/6 - (angle - (4 * PI / 6)), glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+	else if (angle > 5 * PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, -PI/6 + (angle - (5 * PI / 6)), glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+
+	return modelMatrix;
+}
+
+glm::mat4 rotateLeftOars(float angle, glm::mat4 modelMatrix) {
+
+	angle = fmod(angle, PI);
+
+	if (angle > 0 && angle <= PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, -angle, glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+	else if (angle > PI / 6 && angle <= 2 * PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, -PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, angle - (PI / 6), glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+	else if (angle > 2 * PI / 6 && angle <= 4 * PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, -PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, (angle - (2 * PI / 6)), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+	else if (angle > 4 * PI / 6 && angle <= 5 * PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
+		modelMatrix = glm::rotate(modelMatrix, PI / 6 - (angle - (4 * PI / 6)), glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+	else if (angle > 5 * PI / 6) {
+		modelMatrix = glm::rotate(modelMatrix, PI / 6 - (angle - (5 * PI / 6)), glm::vec3(0.0f, 1.0f, 0.0f));
+	}
+
+	return modelMatrix;
+}
+
+
+
 //Procedura rysująca zawartość sceny
-void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
+void drawScene(GLFWwindow* window,float angle_x,float angle_y, float leftOarsAngle, float rightOarsAngle) {
 	//************Tutaj umieszczaj kod rysujący obraz******************l
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Wyczyść bufor koloru i bufor głębokości
 	
@@ -112,7 +201,7 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
 	galleyMatrix = glm::rotate(galleyMatrix, angle_x, glm::vec3(0.0f, 0.0f, 1.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi X
 	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 10.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Wylicz macierz widoku
 	glm::mat4 P = glm::perspective(50.0f * PI / 180.0f, aspectRatio, 0.01f, 50.0f);  //Wylicz macierz rzutowania
-	galleyMatrix = glm::scale(galleyMatrix, glm::vec3(0.02f, 0.02f, 0.02f));
+	galleyMatrix = glm::scale(galleyMatrix, glm::vec3(0.01f, 0.01f, 0.01f));
 
 	Galley.draw(P, V, galleyMatrix);
 	glm::mat4 leftOarMatrix = galleyMatrix;
@@ -126,11 +215,11 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y) {
 			leftOarMatrix = glm::translate(leftOarMatrix, glm::vec3(0.0f, 0.0f + i * 1.3f, -97.0f + i * 1.3f));
 			rightOarMatrix = glm::translate(rightOarMatrix, glm::vec3(0.0f, 0.0f + i * 1.3f, 97.0f));
 		}
-		glm::mat4 rotatedLeftOarMatrix = glm::rotate(leftOarMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::mat4 rotatedRightOarMatrix = glm::rotate(rightOarMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
-		Oar.draw(P, V, rotatedLeftOarMatrix);
+		glm::mat4 rotatedLeftOarMatrix, rotatedRightOarMatrix;
+		rotatedLeftOarMatrix = rotateLeftOars(leftOarsAngle, leftOarMatrix);
+		rotatedRightOarMatrix = rotateRightOars(rightOarsAngle, rightOarMatrix);
 		Oar.draw(P, V, rotatedRightOarMatrix);
-		
+		Oar.draw(P, V, rotatedLeftOarMatrix);
 	}
 
 
@@ -171,13 +260,17 @@ int main(void)
 	//Główna pętla
 	float angle_x = 0; //zadeklaruj zmienną przechowującą aktualny kąt obrotu
 	float angle_y = 0; //zadeklaruj zmienną przechowującą aktualny kąt obrotu
+	float leftOarsAngle = PI * 100000;
+	float rightOarsAngle = PI * 100000;
 	glfwSetTime(0); //Wyzeruj licznik czasu
 	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
 	{
 		angle_x += speed_x * glfwGetTime(); //Oblicz kąt o jaki obiekt obrócił się podczas poprzedniej klatki
 		angle_y += speed_y * glfwGetTime(); //Oblicz kąt o jaki obiekt obrócił się podczas poprzedniej klatki
+		leftOarsAngle += leftOarsSpeed * glfwGetTime();
+		rightOarsAngle += rightOarsSpeed * glfwGetTime();
 		glfwSetTime(0); //Wyzeruj licznik czasu
-		drawScene(window,angle_x,angle_y); //Wykonaj procedurę rysującą
+		drawScene(window,angle_x,angle_y, leftOarsAngle, rightOarsAngle); //Wykonaj procedurę rysującą
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
 	}
 
