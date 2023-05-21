@@ -26,12 +26,14 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdlib.h>
 #include <stdio.h>
-#include "myCube.h"
 #include "constants.h"
 #include "allmodels.h"
 #include "lodepng.h"
 #include "shaderprogram.h"
 #include "customModel.h"
+#include "water.h"
+#include "oarAnimation.h"
+#include "waterFrameBuffers.h"
 
 float speed_x = 0;//[radiany/s]
 float speed_y = 0;//[radiany/s]
@@ -42,6 +44,7 @@ float targetSpeedOfOars = PI / 2;
 
 CustomModel Oar("./model/oar.obj");
 CustomModel Galley("./model/galley.obj");
+Water water;
 
 //Procedura obsługi błędów
 void error_callback(int error, const char* description) {
@@ -133,72 +136,14 @@ void freeOpenGLProgram(GLFWwindow* window) {
     freeShaders();
 }
 
-
-
-glm::mat4 rotateRightOars(float angle, glm::mat4 modelMatrix) {
-
-	angle = fmod(angle, PI);
-
-	if (angle > 0 && angle <= PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, angle, glm::vec3(0.0f, 1.0f, 0.0f));
-	}
-	else if (angle > PI / 6 && angle <= 2 * PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
-		modelMatrix = glm::rotate(modelMatrix, angle - (PI / 6), glm::vec3(0.0f, 0.0f, 1.0f));
-	}
-	else if (angle > 2 * PI / 6 && angle <= 4 * PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
-		modelMatrix = glm::rotate(modelMatrix, -(angle - (2 * PI / 6)), glm::vec3(0.0f, 1.0f, 0.0f));
-		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 0.0f, 1.0f));
-	}
-	else if (angle > 4 * PI / 6 && angle <= 5 * PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, -PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
-		modelMatrix = glm::rotate(modelMatrix, PI/6 - (angle - (4 * PI / 6)), glm::vec3(0.0f, 0.0f, 1.0f));
-	}
-	else if (angle > 5 * PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, -PI/6 + (angle - (5 * PI / 6)), glm::vec3(0.0f, 1.0f, 0.0f));
-	}
-
-	return modelMatrix;
-}
-
-glm::mat4 rotateLeftOars(float angle, glm::mat4 modelMatrix) {
-
-	angle = fmod(angle, PI);
-
-	if (angle > 0 && angle <= PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, -angle, glm::vec3(0.0f, 1.0f, 0.0f));
-	}
-	else if (angle > PI / 6 && angle <= 2 * PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, -PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
-		modelMatrix = glm::rotate(modelMatrix, angle - (PI / 6), glm::vec3(0.0f, 0.0f, 1.0f));
-	}
-	else if (angle > 2 * PI / 6 && angle <= 4 * PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, -PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
-		modelMatrix = glm::rotate(modelMatrix, (angle - (2 * PI / 6)), glm::vec3(0.0f, 1.0f, 0.0f));
-		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 0.0f, 1.0f));
-	}
-	else if (angle > 4 * PI / 6 && angle <= 5 * PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, PI / 6, glm::vec3(0.0f, 1.0f, 0.0f));
-		modelMatrix = glm::rotate(modelMatrix, PI / 6 - (angle - (4 * PI / 6)), glm::vec3(0.0f, 0.0f, 1.0f));
-	}
-	else if (angle > 5 * PI / 6) {
-		modelMatrix = glm::rotate(modelMatrix, PI / 6 - (angle - (5 * PI / 6)), glm::vec3(0.0f, 1.0f, 0.0f));
-	}
-
-	return modelMatrix;
-}
-
-
-
 //Procedura rysująca zawartość sceny
 void drawScene(GLFWwindow* window,float angle_x,float angle_y, float leftOarsAngle, float rightOarsAngle) {
 	//************Tutaj umieszczaj kod rysujący obraz******************l
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Wyczyść bufor koloru i bufor głębokości
-	
+	glm::mat4 baseMatrix = glm::mat4(1.0f);
+	baseMatrix = glm::scale(baseMatrix, glm::vec3(100.0f, 100.0f, 100.0f));
 	glm::mat4 galleyMatrix = glm::mat4(1.0f); //Zainicjuj macierz modelu macierzą jednostkową
 	galleyMatrix = glm::rotate(galleyMatrix, angle_y, glm::vec3(0.0f, 1.0f, 0.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi Y
-	galleyMatrix = glm::rotate(galleyMatrix, angle_x, glm::vec3(0.0f, 0.0f, 1.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi X
 	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 10.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Wylicz macierz widoku
 	glm::mat4 P = glm::perspective(50.0f * PI / 180.0f, aspectRatio, 0.01f, 50.0f);  //Wylicz macierz rzutowania
 	galleyMatrix = glm::scale(galleyMatrix, glm::vec3(0.01f, 0.01f, 0.01f));
@@ -216,67 +161,76 @@ void drawScene(GLFWwindow* window,float angle_x,float angle_y, float leftOarsAng
 			rightOarMatrix = glm::translate(rightOarMatrix, glm::vec3(0.0f, 0.0f + i * 1.3f, 97.0f));
 		}
 		glm::mat4 rotatedLeftOarMatrix, rotatedRightOarMatrix;
-		rotatedLeftOarMatrix = rotateLeftOars(leftOarsAngle, leftOarMatrix);
-		rotatedRightOarMatrix = rotateRightOars(rightOarsAngle, rightOarMatrix);
+		rotatedLeftOarMatrix = oam::rotateLeftOars(leftOarsAngle, leftOarMatrix);
+		rotatedRightOarMatrix = oam::rotateRightOars(rightOarsAngle, rightOarMatrix);
 		Oar.draw(P, V, rotatedRightOarMatrix);
 		Oar.draw(P, V, rotatedLeftOarMatrix);
 	}
+	water.draw(P, V, baseMatrix);
 
 
 	glfwSwapBuffers(window); //Skopiuj bufor tylny do bufora przedniego
 }
 
 
+
 int main(void)
 {
-	GLFWwindow* window; //Wskaźnik na obiekt reprezentujący okno
-
-	glfwSetErrorCallback(error_callback);//Zarejestruj procedurę obsługi błędów
-
-	if (!glfwInit()) { //Zainicjuj bibliotekę GLFW
+	GLFWwindow* window;
+	glfwSetErrorCallback(error_callback);
+	if (!glfwInit()) { 
 		fprintf(stderr, "Nie można zainicjować GLFW.\n");
 		exit(EXIT_FAILURE);
 	}
-
-	window = glfwCreateWindow(1024, 1024, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
-
-	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
+	window = glfwCreateWindow(1024, 1024, "Galley", NULL, NULL);
+	if (!window)
 	{
 		fprintf(stderr, "Nie można utworzyć okna.\n");
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
-
-	glfwMakeContextCurrent(window); //Od tego momentu kontekst okna staje się aktywny i polecenia OpenGL będą dotyczyć właśnie jego.
-	glfwSwapInterval(1); //Czekaj na 1 powrót plamki przed pokazaniem ukrytego bufora
-
+	glfwMakeContextCurrent(window);
+	glfwSwapInterval(1);
 	if (glewInit() != GLEW_OK) { //Zainicjuj bibliotekę GLEW
 		fprintf(stderr, "Nie można zainicjować GLEW.\n");
 		exit(EXIT_FAILURE);
 	}
-
 	initOpenGLProgram(window); //Operacje inicjujące
 
+
+
 	//Główna pętla
-	float angle_x = 0; //zadeklaruj zmienną przechowującą aktualny kąt obrotu
-	float angle_y = 0; //zadeklaruj zmienną przechowującą aktualny kąt obrotu
+	float angle_x = 0;
+	float angle_y = 0; 
 	float leftOarsAngle = PI * 100000;
 	float rightOarsAngle = PI * 100000;
-	glfwSetTime(0); //Wyzeruj licznik czasu
-	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
+	glfwSetTime(0);
+
+	//Utworzenie FrameBuffers dla wody
+	waterFrameBuffers fbos(window);
+
+	while (!glfwWindowShouldClose(window)) 
 	{
-		angle_x += speed_x * glfwGetTime(); //Oblicz kąt o jaki obiekt obrócił się podczas poprzedniej klatki
-		angle_y += speed_y * glfwGetTime(); //Oblicz kąt o jaki obiekt obrócił się podczas poprzedniej klatki
+		angle_x += speed_x * glfwGetTime(); 
+		angle_y += speed_y * glfwGetTime();
 		leftOarsAngle += leftOarsSpeed * glfwGetTime();
 		rightOarsAngle += rightOarsSpeed * glfwGetTime();
-		glfwSetTime(0); //Wyzeruj licznik czasu
-		drawScene(window,angle_x,angle_y, leftOarsAngle, rightOarsAngle); //Wykonaj procedurę rysującą
-		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
+		glfwSetTime(0);
+
+		fbos.bindReflectionFrameBuffer();
+		drawScene(window, angle_x, angle_y, leftOarsAngle, rightOarsAngle);
+		fbos.unbindCurrentFrameBuffer();
+
+		glfwPollEvents();
 	}
+
+	//Sekcja zwalniania zasobów
 
 	freeOpenGLProgram(window);
 
-	glfwDestroyWindow(window); //Usuń kontekst OpenGL i okno
-	glfwTerminate(); //Zwolnij zasoby zajęte przez GLFW
+	fbos.cleanUp();
+
+	glfwDestroyWindow(window); 
+	glfwTerminate();
 	exit(EXIT_SUCCESS);
 }

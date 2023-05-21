@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pliki źródłowe\water">
+      <UniqueIdentifier>{260f8238-1f87-4158-9be8-5d4e81c9260e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="allmodels.h">
@@ -47,6 +50,15 @@
     </ClInclude>
     <ClInclude Include="customModel.h">
       <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="water.h">
+      <Filter>Pliki źródłowe\water</Filter>
+    </ClInclude>
+    <ClInclude Include="oarAnimation.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="waterFrameBuffers.h">
+      <Filter>Pliki źródłowe\water</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +117,12 @@
     </None>
     <None Include="v_textured.glsl">
       <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="f_water.glsl">
+      <Filter>Pliki źródłowe\water</Filter>
+    </None>
+    <None Include="v_water.glsl">
+      <Filter>Pliki źródłowe\water</Filter>
     </None>
   </ItemGroup>
 </Project>
