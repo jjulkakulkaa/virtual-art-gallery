@@ -26,14 +26,11 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdlib.h>
 #include <stdio.h>
-#include "constants.h"
-#include "allmodels.h"
-#include "lodepng.h"
 #include "shaderprogram.h"
-#include "customModel.h"
 #include "water.h"
-#include "oarAnimation.h"
 #include "waterFrameBuffers.h"
+#include "galley.h"
+#include "camera.h"
 
 float speed_x = 0;//[radiany/s]
 float speed_y = 0;//[radiany/s]
@@ -41,12 +38,10 @@ float leftOarsSpeed = 0;
 float rightOarsSpeed = 0;
 float aspectRatio = 1;
 float targetSpeedOfOars = PI / 2;
+bool leftMouseButtonPressed = false;
 
-CustomModel Oar("./model/oar.obj");
-CustomModel Galley("./model/galley.obj");
-Water water;
+Camera camera;
 
-//Procedura obsługi błędów
 void error_callback(int error, const char* description) {
 	fputs(description, stderr);
 }
@@ -112,6 +107,39 @@ void key_callback(
 	}
 }
 
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT)
+	{
+		if (action == GLFW_PRESS)
+		{
+			leftMouseButtonPressed = true;
+		}
+		else if (action == GLFW_RELEASE)
+		{
+			leftMouseButtonPressed = false;
+		}
+	}
+}
+
+void cursorPosCallback(GLFWwindow* window, double xPos, double yPos) {
+	if (leftMouseButtonPressed) {
+		glfwSetCursorPos(window, 512, 512);
+		if (xPos > 512 + 16) camera.moveRight();
+		if (xPos < 512 - 16) camera.moveLeft();
+		if (yPos > 512 + 16) camera.moveBottom();
+		if (yPos < 512 - 16) camera.moveTop();
+ 	}
+}
+
+void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) {
+	if (yOffset > 0) {
+		camera.moveCenter();
+	}
+	else if (yOffset < 0) {
+		camera.moveBack();
+	}
+}
+
 void windowResizeCallback(GLFWwindow* window, int width, int height) {
 	if (height == 0) return;
 	aspectRatio = (float)width / (float)height;
@@ -125,9 +153,11 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glClearColor(0, 0, 0, 1); //Ustaw kolor czyszczenia bufora kolorów
 	glEnable(GL_DEPTH_TEST); //Włącz test głębokości na pikselach
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetMouseButtonCallback(window, mouseButtonCallback);
+	glfwSetScrollCallback(window, scrollCallback);
+	glfwSetCursorPosCallback(window, cursorPosCallback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetWindowSizeCallback(window, windowResizeCallback);
-	Oar.loadModel();
-	Galley.loadModel();
 }
 
 
@@ -135,44 +165,6 @@ void initOpenGLProgram(GLFWwindow* window) {
 void freeOpenGLProgram(GLFWwindow* window) {
     freeShaders();
 }
-
-//Procedura rysująca zawartość sceny
-void drawScene(GLFWwindow* window,float angle_x,float angle_y, float leftOarsAngle, float rightOarsAngle) {
-	//************Tutaj umieszczaj kod rysujący obraz******************l
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Wyczyść bufor koloru i bufor głębokości
-	glm::mat4 baseMatrix = glm::mat4(1.0f);
-	baseMatrix = glm::scale(baseMatrix, glm::vec3(100.0f, 100.0f, 100.0f));
-	glm::mat4 galleyMatrix = glm::mat4(1.0f); //Zainicjuj macierz modelu macierzą jednostkową
-	galleyMatrix = glm::rotate(galleyMatrix, angle_y, glm::vec3(0.0f, 1.0f, 0.0f)); //Pomnóż macierz modelu razy macierz obrotu o kąt angle wokół osi Y
-	glm::mat4 V = glm::lookAt(glm::vec3(0.0f, 10.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)); //Wylicz macierz widoku
-	glm::mat4 P = glm::perspective(50.0f * PI / 180.0f, aspectRatio, 0.01f, 50.0f);  //Wylicz macierz rzutowania
-	galleyMatrix = glm::scale(galleyMatrix, glm::vec3(0.01f, 0.01f, 0.01f));
-
-	Galley.draw(P, V, galleyMatrix);
-	glm::mat4 leftOarMatrix = galleyMatrix;
-	glm::mat4 rightOarMatrix = glm::rotate(leftOarMatrix, PI, glm::vec3(0.0f, 1.0f, 0.0f));
-	for (int i = 0; i < 7; i++) {
-		if (i == 0) {
-			leftOarMatrix = glm::translate(leftOarMatrix, glm::vec3(-169.0f, 88.0f, 53.0f));
-			rightOarMatrix = glm::translate(rightOarMatrix, glm::vec3(-167.0f, 88.0f, -53.0f));
-		}
-		else {
-			leftOarMatrix = glm::translate(leftOarMatrix, glm::vec3(0.0f, 0.0f + i * 1.3f, -97.0f + i * 1.3f));
-			rightOarMatrix = glm::translate(rightOarMatrix, glm::vec3(0.0f, 0.0f + i * 1.3f, 97.0f));
-		}
-		glm::mat4 rotatedLeftOarMatrix, rotatedRightOarMatrix;
-		rotatedLeftOarMatrix = oam::rotateLeftOars(leftOarsAngle, leftOarMatrix);
-		rotatedRightOarMatrix = oam::rotateRightOars(rightOarsAngle, rightOarMatrix);
-		Oar.draw(P, V, rotatedRightOarMatrix);
-		Oar.draw(P, V, rotatedLeftOarMatrix);
-	}
-	water.draw(P, V, baseMatrix);
-
-
-	glfwSwapBuffers(window); //Skopiuj bufor tylny do bufora przedniego
-}
-
-
 
 int main(void)
 {
@@ -197,7 +189,8 @@ int main(void)
 	}
 	initOpenGLProgram(window); //Operacje inicjujące
 
-
+	Water water;
+	Galley galley;
 
 	//Główna pętla
 	float angle_x = 0;
@@ -211,16 +204,19 @@ int main(void)
 
 	while (!glfwWindowShouldClose(window)) 
 	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
 		angle_x += speed_x * glfwGetTime(); 
 		angle_y += speed_y * glfwGetTime();
 		leftOarsAngle += leftOarsSpeed * glfwGetTime();
 		rightOarsAngle += rightOarsSpeed * glfwGetTime();
 		glfwSetTime(0);
 
-		fbos.bindReflectionFrameBuffer();
-		drawScene(window, angle_x, angle_y, leftOarsAngle, rightOarsAngle);
-		fbos.unbindCurrentFrameBuffer();
+		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion());
 
+
+		glfwSwapBuffers(window); //Skopiuj bufor tylny do bufora przedniego
 		glfwPollEvents();
 	}
 

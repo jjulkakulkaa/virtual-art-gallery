@@ -16,15 +16,15 @@
     <Filter Include="Pliki źródłowe\water">
       <UniqueIdentifier>{260f8238-1f87-4158-9be8-5d4e81c9260e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\galley">
+      <UniqueIdentifier>{c3f8d140-2f3b-4814-86b5-ea31e4a35d93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\camera">
+      <UniqueIdentifier>{9f6c0f2e-9897-47c1-a547-1c61c8da7ea9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="allmodels.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="constants.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="cube.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="lodepng.h">
@@ -33,19 +33,7 @@
     <ClInclude Include="model.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="sphere.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="teapot.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="torus.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="shaderprogram.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="myCube.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="customModel.h">
@@ -60,62 +48,47 @@
     <ClInclude Include="waterFrameBuffers.h">
       <Filter>Pliki źródłowe\water</Filter>
     </ClInclude>
+    <ClInclude Include="galley.h">
+      <Filter>Pliki źródłowe\galley</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>Pliki źródłowe\camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cube.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="lodepng.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="main_file.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="model.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="shaderprogram.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="sphere.cpp">
+    <ClCompile Include="oarAnimation.cpp">
+      <Filter>Pliki źródłowe\galley</Filter>
+    </ClCompile>
+    <ClCompile Include="customModel.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="teapot.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="galley.cpp">
+      <Filter>Pliki źródłowe\galley</Filter>
     </ClCompile>
-    <ClCompile Include="torus.cpp">
-      <Filter>Pliki źródłowe</Filter>
+    <ClCompile Include="camera.cpp">
+      <Filter>Pliki źródłowe\camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="f_constant.glsl">
       <Filter>Pliki zasobów</Filter>
     </None>
-    <None Include="f_colored.glsl">
-      <Filter>Pliki zasobów</Filter>
-    </None>
-    <None Include="f_lambert.glsl">
-      <Filter>Pliki zasobów</Filter>
-    </None>
     <None Include="f_lamberttextured.glsl">
-      <Filter>Pliki zasobów</Filter>
-    </None>
-    <None Include="f_textured.glsl">
       <Filter>Pliki zasobów</Filter>
     </None>
     <None Include="v_constant.glsl">
       <Filter>Pliki zasobów</Filter>
     </None>
-    <None Include="v_colored.glsl">
-      <Filter>Pliki zasobów</Filter>
-    </None>
-    <None Include="v_lambert.glsl">
-      <Filter>Pliki zasobów</Filter>
-    </None>
     <None Include="v_lamberttextured.glsl">
-      <Filter>Pliki zasobów</Filter>
-    </None>
-    <None Include="v_textured.glsl">
       <Filter>Pliki zasobów</Filter>
     </None>
     <None Include="f_water.glsl">
