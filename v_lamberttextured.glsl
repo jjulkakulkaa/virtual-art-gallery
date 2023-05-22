@@ -13,12 +13,20 @@ layout (location=0) in vec4 vertex; //wspolrzedne wierzcholka w przestrzeni mode
 layout (location=1) in vec4 normal; //wektor normalny w wierzcholku
 layout (location=2) in vec2 texCoord; //wspó³rzêdne teksturowania
 
+uniform vec4 plane;
+
 
 //Zmienne interpolowane
 out vec2 i_tc;
 out float i_nl;
 
 void main(void) {
+
+    vec4 worldPosition = M * vertex; 
+
+    gl_ClipDistance[0] = dot(worldPosition, plane);
+
+
     gl_Position=P*V*M*vertex;
 
     mat4 G=mat4(inverse(transpose(mat3(M))));

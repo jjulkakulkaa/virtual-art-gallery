@@ -46,11 +46,9 @@ public:
 
 
 extern ShaderProgram* spConstant;
-extern ShaderProgram* spLambert;
-extern ShaderProgram* spTextured;
-extern ShaderProgram* spColored;
 extern ShaderProgram* spLambertTextured;
 extern ShaderProgram* spWater;
+extern ShaderProgram* spTextured;
 
 void initShaders();
 void freeShaders();

@@ -5,7 +5,7 @@
 
 class Camera {
 private:
-	float x, y, z;
+	float x, y, z, pitch;
 	glm::mat4 position;
 
 	void updatePosition(float x, float y, float z);
@@ -17,10 +17,14 @@ public:
 	float getWidth();
 	float getDepth();
 
+	void inverPitch();
+
 	void moveLeft();
 	void moveRight();
 	void moveTop();
 	void moveBottom();
 	void moveCenter();
 	void moveBack();
+	void moveStraightDown(float distance);
+	void moveStraightUp(float distance);
 };

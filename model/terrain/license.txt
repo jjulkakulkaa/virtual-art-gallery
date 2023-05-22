@@ -1,0 +1,11 @@
+Model Information:
+* title:	Lake
+* source:	https://sketchfab.com/3d-models/lake-03f6a63d37e8435b97ef6ae3835937fe
+* author:	Eva.Kraai (https://sketchfab.com/Eva.Kraai)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Lake" (https://sketchfab.com/3d-models/lake-03f6a63d37e8435b97ef6ae3835937fe) by Eva.Kraai (https://sketchfab.com/Eva.Kraai) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

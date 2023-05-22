@@ -6,13 +6,14 @@ float speed = 0.7f;
 
 Camera::Camera() {
 	x = 0;
-	y = 10.0f;
-	z = -15.0f;
-	position = glm::lookAt(glm::vec3(x, y, z), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	y = 20.0f;
+	z = -30.0f;
+	pitch = 1.0f;
+	position = glm::lookAt(glm::vec3(x, y, z), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, pitch, 0.0f));
 }
 
 void Camera::updatePosition(float newX, float newY, float newZ) {
-	position = glm::lookAt(glm::vec3(newX, newY, newZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	position = glm::lookAt(glm::vec3(newX, newY, newZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, pitch, 0.0f));
 	x = newX;
 	y = newY;
 	z = newZ;
@@ -32,6 +33,11 @@ float Camera::getWidth() {
 
 float Camera::getDepth() {
 	return z;
+}
+
+void Camera::inverPitch() {
+	pitch = -pitch;
+	position = glm::lookAt(glm::vec3(x, y, z), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, pitch, 0.0f));
 }
 
 void Camera::moveLeft() {
@@ -64,4 +70,12 @@ void Camera::moveCenter() {
 
 void Camera::moveBack() {
 	updatePosition(x, y, z - speed);
+}
+
+void Camera::moveStraightDown(float distance) {
+	updatePosition(x, y - distance, z);
+}
+
+void Camera::moveStraightUp(float distance) {
+	updatePosition(x, y + distance, z);
 }

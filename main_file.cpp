@@ -31,6 +31,8 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "waterFrameBuffers.h"
 #include "galley.h"
 #include "camera.h"
+#include "terrain.h"
+#include "skybox.h"
 
 float speed_x = 0;//[radiany/s]
 float speed_y = 0;//[radiany/s]
@@ -150,7 +152,7 @@ void windowResizeCallback(GLFWwindow* window, int width, int height) {
 void initOpenGLProgram(GLFWwindow* window) {
     initShaders();
 	//************Tutaj umieszczaj kod, który należy wykonać raz, na początku programu************
-	glClearColor(0, 0, 0, 1); //Ustaw kolor czyszczenia bufora kolorów
+	glClearColor(1, 0, 0, 1); //Ustaw kolor czyszczenia bufora kolorów
 	glEnable(GL_DEPTH_TEST); //Włącz test głębokości na pikselach
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetMouseButtonCallback(window, mouseButtonCallback);
@@ -191,6 +193,9 @@ int main(void)
 
 	Water water;
 	Galley galley;
+	Terrain terrain;
+	SkyBox skybox;
+	
 
 	//Główna pętla
 	float angle_x = 0;
@@ -200,11 +205,13 @@ int main(void)
 	glfwSetTime(0);
 
 	//Utworzenie FrameBuffers dla wody
-	waterFrameBuffers fbos(window);
+	waterFrameBuffers buffers(window);
 
 	while (!glfwWindowShouldClose(window)) 
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glEnable(GL_CLIP_DISTANCE0); // włączenie gl_ClipDistance do obsługi odbicia
 
 
 		angle_x += speed_x * glfwGetTime(); 
@@ -213,8 +220,29 @@ int main(void)
 		rightOarsAngle += rightOarsSpeed * glfwGetTime();
 		glfwSetTime(0);
 
-		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion());
 
+		buffers.bindReflectionFrameBuffer();
+		float distance = 2 * camera.getHeight();
+		camera.moveStraightDown(distance);
+		camera.inverPitch();
+		terrain.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
+		skybox.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
+		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion(), glm::vec4(0, 1, 0, 0));
+		camera.moveStraightUp(distance);
+		camera.inverPitch();
+		
+		buffers.bindRefractionFrameBuffer();
+		terrain.render(camera.getPosistion(), glm::vec4(0, -1, 0, 0));
+		skybox.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
+		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion(), glm::vec4(0, -1, 0, 0));
+
+		glDisable(GL_CLIP_DISTANCE0);
+		buffers.unbindCurrentFrameBuffer();
+		terrain.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
+		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion(), glm::vec4(0, 1, 0, 0));
+		skybox.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
+		water.render(camera.getPosistion(), buffers); 
+		
 
 		glfwSwapBuffers(window); //Skopiuj bufor tylny do bufora przedniego
 		glfwPollEvents();
@@ -224,7 +252,7 @@ int main(void)
 
 	freeOpenGLProgram(window);
 
-	fbos.cleanUp();
+	buffers.cleanUp();
 
 	glfwDestroyWindow(window); 
 	glfwTerminate();

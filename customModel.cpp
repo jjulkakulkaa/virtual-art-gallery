@@ -78,12 +78,13 @@ void CustomModel::loadModel() {
     }
 }
 
-void CustomModel::draw(glm::mat4 P, glm::mat4 V, glm::mat4 M) {
+void CustomModel::draw(glm::mat4 P, glm::mat4 V, glm::mat4 M, glm::vec4 vector) {
     for (int i = 0; i < Meshes.size(); i++) {
         spLambertTextured->use();
         glUniformMatrix4fv(spLambertTextured->u("P"), 1, false, glm::value_ptr(P));
         glUniformMatrix4fv(spLambertTextured->u("V"), 1, false, glm::value_ptr(V));
         glUniformMatrix4fv(spLambertTextured->u("M"), 1, false, glm::value_ptr(M));
+        glUniform4fv(spLambertTextured->u("plane"), 1, glm::value_ptr(vector));
 
         glEnableVertexAttribArray(spLambertTextured->a("vertex"));
         glVertexAttribPointer(spLambertTextured->a("vertex"), 4, GL_FLOAT, false, 0, Meshes[i].vertices.data());

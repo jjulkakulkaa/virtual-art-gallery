@@ -22,5 +22,5 @@ private:
 public:
 	Galley();
 	
-	void render(float leftOarsAngle, float rightOarsAngle, glm::mat4 camera);
+	void render(float leftOarsAngle, float rightOarsAngle, glm::mat4 camera, glm::vec4 vector);
 };

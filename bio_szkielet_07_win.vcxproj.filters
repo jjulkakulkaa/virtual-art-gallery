@@ -22,6 +22,15 @@
     <Filter Include="Pliki źródłowe\camera">
       <UniqueIdentifier>{9f6c0f2e-9897-47c1-a547-1c61c8da7ea9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\terrain">
+      <UniqueIdentifier>{10e1a8a1-69ff-4217-b44f-b5f801101fe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\customModel">
+      <UniqueIdentifier>{1f379523-b530-4895-8162-cd3023a1565d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\skybox">
+      <UniqueIdentifier>{58c6f4d7-50b4-4841-9e91-6073d07c574d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -34,9 +43,6 @@
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="shaderprogram.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="customModel.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="water.h">
@@ -54,6 +60,15 @@
     <ClInclude Include="camera.h">
       <Filter>Pliki źródłowe\camera</Filter>
     </ClInclude>
+    <ClInclude Include="terrain.h">
+      <Filter>Pliki źródłowe\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="customModel.h">
+      <Filter>Pliki źródłowe\customModel</Filter>
+    </ClInclude>
+    <ClInclude Include="skybox.h">
+      <Filter>Pliki źródłowe\skybox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lodepng.cpp">
@@ -68,14 +83,23 @@
     <ClCompile Include="oarAnimation.cpp">
       <Filter>Pliki źródłowe\galley</Filter>
     </ClCompile>
-    <ClCompile Include="customModel.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
     <ClCompile Include="galley.cpp">
       <Filter>Pliki źródłowe\galley</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>Pliki źródłowe\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="water.cpp">
+      <Filter>Pliki źródłowe\water</Filter>
+    </ClCompile>
+    <ClCompile Include="terrain.cpp">
+      <Filter>Pliki źródłowe\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="customModel.cpp">
+      <Filter>Pliki źródłowe\customModel</Filter>
+    </ClCompile>
+    <ClCompile Include="skybox.cpp">
+      <Filter>Pliki źródłowe\skybox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +120,12 @@
     </None>
     <None Include="v_water.glsl">
       <Filter>Pliki źródłowe\water</Filter>
+    </None>
+    <None Include="f_textured.glsl">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="v_textured.glsl">
+      <Filter>Pliki zasobów</Filter>
     </None>
   </ItemGroup>
 </Project>
