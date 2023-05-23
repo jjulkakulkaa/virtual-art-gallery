@@ -1,10 +1,13 @@
 #version 330
 
-in vec3 textureCoords;
-out vec4 out_Color;
 
-uniform samplerCube cubeMap;
+uniform sampler2D tex;
 
-void main(void){
-    out_Color = texture(cubeMap, textureCoords);
+out vec4 pixelColor; //Zmienna wyjsciowa fragment shadera. Zapisuje sie do niej ostateczny (prawie) kolor piksela
+
+//Zmienne interpolowane
+in vec2 i_tc;
+
+void main(void) {
+	pixelColor=texture(tex,i_tc);
 }

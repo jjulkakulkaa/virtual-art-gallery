@@ -101,6 +101,9 @@
     <ClCompile Include="skybox.cpp">
       <Filter>Pliki źródłowe\skybox</Filter>
     </ClCompile>
+    <ClCompile Include="waterFrameBuffers.cpp">
+      <Filter>Pliki źródłowe\water</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="f_constant.glsl">

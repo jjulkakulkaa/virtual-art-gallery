@@ -43,6 +43,7 @@
     <ClCompile Include="skybox.cpp" />
     <ClCompile Include="terrain.cpp" />
     <ClCompile Include="water.cpp" />
+    <ClCompile Include="waterFrameBuffers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="f_constant.glsl" />

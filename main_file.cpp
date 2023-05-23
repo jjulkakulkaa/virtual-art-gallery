@@ -191,11 +191,15 @@ int main(void)
 	}
 	initOpenGLProgram(window); //Operacje inicjujące
 
+	waterFrameBuffers waterFrames(window);
+	waterFrames.initializeReflectionFrameBuffer();
+	waterFrames.initializeRefractionFrameBuffer();
+
 	Water water;
 	Galley galley;
 	Terrain terrain;
 	SkyBox skybox;
-	
+	//Utworzenie FrameBuffers dla wody
 
 	//Główna pętla
 	float angle_x = 0;
@@ -203,9 +207,6 @@ int main(void)
 	float leftOarsAngle = PI * 100000;
 	float rightOarsAngle = PI * 100000;
 	glfwSetTime(0);
-
-	//Utworzenie FrameBuffers dla wody
-	waterFrameBuffers buffers(window);
 
 	while (!glfwWindowShouldClose(window)) 
 	{
@@ -220,8 +221,8 @@ int main(void)
 		rightOarsAngle += rightOarsSpeed * glfwGetTime();
 		glfwSetTime(0);
 
-
-		buffers.bindReflectionFrameBuffer();
+		waterFrames.bindReflectionFrameBuffer();
+		
 		float distance = 2 * camera.getHeight();
 		camera.moveStraightDown(distance);
 		camera.inverPitch();
@@ -230,21 +231,23 @@ int main(void)
 		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion(), glm::vec4(0, 1, 0, 0));
 		camera.moveStraightUp(distance);
 		camera.inverPitch();
-		
-		buffers.bindRefractionFrameBuffer();
+
+		waterFrames.bindRefractionFrameBuffer();
+
 		terrain.render(camera.getPosistion(), glm::vec4(0, -1, 0, 0));
 		skybox.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
 		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion(), glm::vec4(0, -1, 0, 0));
 
 		glDisable(GL_CLIP_DISTANCE0);
-		buffers.unbindCurrentFrameBuffer();
+		waterFrames.unbindCurrentFrameBuffer();
+
 		terrain.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
 		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion(), glm::vec4(0, 1, 0, 0));
 		skybox.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
-		water.render(camera.getPosistion(), buffers); 
-		
+		water.render(camera, waterFrames);
+		water.updateMoveFactor();
 
-		glfwSwapBuffers(window); //Skopiuj bufor tylny do bufora przedniego
+		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
@@ -252,7 +255,7 @@ int main(void)
 
 	freeOpenGLProgram(window);
 
-	buffers.cleanUp();
+	//buffers.cleanUp();
 
 	glfwDestroyWindow(window); 
 	glfwTerminate();

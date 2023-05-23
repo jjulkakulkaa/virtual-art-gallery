@@ -8,14 +8,21 @@
 #include "waterFrameBuffers.h"
 #include <vector>
 #include <iostream>
+#include "customModel.h"
+#include "camera.h"
 
 class Water {
 private:
 	std::vector<float> vertices;
 	std::vector<float> texCoords;
 	int vertexCount;
+	GLuint dudvTexture;
+	GLuint normalTexture;
+	float moveFactor = 0;
+	float waveSpeed = 0.001f;
 public:
 	Water();
 
-	void render(glm::mat4 V, waterFrameBuffers fbos);
+	void render(Camera camera, waterFrameBuffers fbos);
+	void updateMoveFactor();
 };
