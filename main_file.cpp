@@ -18,6 +18,15 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 */
 
 #define GLM_FORCE_RADIANS
+#define NONE 0
+#define FORWARD 1
+#define BACKWARD 2
+#define LEFT 3
+#define RIGHT 4
+#define FORWARDleft 5
+#define FORWARDright 6
+#define BACKWARDleft 7
+#define BACKWARDright 8
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -41,6 +50,7 @@ float rightOarsSpeed = 0;
 float aspectRatio = 1;
 float targetSpeedOfOars = PI / 2;
 bool leftMouseButtonPressed = false;
+int direction = NONE;
 
 Camera camera;
 
@@ -69,24 +79,24 @@ void key_callback(
 			speed_x = PI;
 		}
 		if (key == GLFW_KEY_A) {
-			leftOarsSpeed = targetSpeedOfOars;
-		}
-		if (key == GLFW_KEY_Z) {
-			leftOarsSpeed = -targetSpeedOfOars;
+			rightOarsSpeed = targetSpeedOfOars;
+			direction = LEFT;
+			
 		}
 		if (key == GLFW_KEY_D) {
-			rightOarsSpeed = targetSpeedOfOars;
-		}
-		if (key == GLFW_KEY_C) {
-			rightOarsSpeed = -targetSpeedOfOars;
+			leftOarsSpeed = targetSpeedOfOars;
+			direction = RIGHT;
+			
 		}
 		if (key == GLFW_KEY_W) {
 			leftOarsSpeed = targetSpeedOfOars;
 			rightOarsSpeed = targetSpeedOfOars;
+			direction = FORWARD;
 		}
 		if (key == GLFW_KEY_S) {
 			leftOarsSpeed = -targetSpeedOfOars;
 			rightOarsSpeed = -targetSpeedOfOars;
+			direction = BACKWARD;
 		}
 	}
 	if (action == GLFW_RELEASE) {
@@ -96,15 +106,15 @@ void key_callback(
 		if (key == GLFW_KEY_UP || key == GLFW_KEY_DOWN) {
 			speed_x = 0;
 		}
-		if (key == GLFW_KEY_A || key == GLFW_KEY_Z) {
+		if (key == GLFW_KEY_A || key == GLFW_KEY_D) {
 			leftOarsSpeed = 0;
-		}
-		if (key == GLFW_KEY_D || key == GLFW_KEY_C) {
 			rightOarsSpeed = 0;
+			direction = NONE;
 		}
 		if (key == GLFW_KEY_W || key == GLFW_KEY_S) {
 			leftOarsSpeed = 0;
 			rightOarsSpeed = 0;
+			direction = NONE;
 		}
 	}
 }
@@ -191,15 +201,14 @@ int main(void)
 	}
 	initOpenGLProgram(window); //Operacje inicjujące
 
+	Water water;
+	Terrain terrain;
+	SkyBox skybox;
+	Galley galley;
+
 	waterFrameBuffers waterFrames(window);
 	waterFrames.initializeReflectionFrameBuffer();
 	waterFrames.initializeRefractionFrameBuffer();
-
-	Water water;
-	Galley galley;
-	Terrain terrain;
-	SkyBox skybox;
-	//Utworzenie FrameBuffers dla wody
 
 	//Główna pętla
 	float angle_x = 0;
@@ -228,7 +237,6 @@ int main(void)
 		camera.inverPitch();
 		terrain.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
 		skybox.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
-		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion(), glm::vec4(0, 1, 0, 0));
 		camera.moveStraightUp(distance);
 		camera.inverPitch();
 
@@ -236,13 +244,13 @@ int main(void)
 
 		terrain.render(camera.getPosistion(), glm::vec4(0, -1, 0, 0));
 		skybox.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
-		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion(), glm::vec4(0, -1, 0, 0));
+		galley.render(leftOarsAngle, rightOarsAngle, camera, glm::vec4(0, -1, 0, 0), direction);
 
 		glDisable(GL_CLIP_DISTANCE0);
 		waterFrames.unbindCurrentFrameBuffer();
 
 		terrain.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
-		galley.render(leftOarsAngle, rightOarsAngle, camera.getPosistion(), glm::vec4(0, 1, 0, 0));
+		galley.render(leftOarsAngle, rightOarsAngle, camera, glm::vec4(0, 1, 0, 0), direction);
 		skybox.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
 		water.render(camera, waterFrames);
 		water.updateMoveFactor();

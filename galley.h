@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdlib.h>
 
+#include "camera.h"
 #include "constants.h"
 #include "oarAnimation.h"
 #include "customModel.h"
@@ -18,9 +19,12 @@ class Galley {
 private:
 	CustomModel oar = CustomModel("./model/oar.obj");
 	CustomModel galley = CustomModel("./model/galley.obj");
+	glm::mat4 galleyMatrix;
 
 public:
 	Galley();
 	
-	void render(float leftOarsAngle, float rightOarsAngle, glm::mat4 camera, glm::vec4 vector);
+	void render(float leftOarsAngle, float rightOarsAngle, Camera camera, glm::vec4 vector, int direction);
+	void move(int direction, Camera camera);
+
 };

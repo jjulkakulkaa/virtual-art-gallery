@@ -19,6 +19,10 @@ void Camera::updatePosition(float newX, float newY, float newZ) {
 	z = newZ;
 }
 
+void Camera::updatePositionAndLookAtPoint(float x, float z) {
+
+}
+
 glm::mat4 Camera::getPosistion() {
 	return position;
 }

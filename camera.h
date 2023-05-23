@@ -13,9 +13,12 @@ public:
 	Camera();
 
 	glm::mat4 getPosistion();
+	void setPosition(glm::mat4 newPos);
+
 	float getHeight();
 	float getWidth();
 	float getDepth();
+
 
 	void inverPitch();
 
@@ -27,4 +30,5 @@ public:
 	void moveBack();
 	void moveStraightDown(float distance);
 	void moveStraightUp(float distance);
+	void updatePositionAndLookAtPoint(float x, float z);
 };
