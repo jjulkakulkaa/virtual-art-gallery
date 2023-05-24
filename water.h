@@ -10,6 +10,7 @@
 #include <iostream>
 #include "customModel.h"
 #include "camera.h"
+#include "light.h"
 
 class Water {
 private:
@@ -19,10 +20,10 @@ private:
 	GLuint dudvTexture;
 	GLuint normalTexture;
 	float moveFactor = 0;
-	float waveSpeed = 0.001f;
+	float waveSpeed = 0.0005f;
 public:
 	Water();
 
-	void render(Camera camera, waterFrameBuffers fbos);
+	void render(Camera camera, waterFrameBuffers fbos, Light light);
 	void updateMoveFactor();
 };

@@ -23,6 +23,7 @@
     <ClInclude Include="constants.h" />
     <ClInclude Include="customModel.h" />
     <ClInclude Include="galley.h" />
+    <ClInclude Include="light.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="oarAnimation.h" />
@@ -36,6 +37,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="customModel.cpp" />
     <ClCompile Include="galley.cpp" />
+    <ClCompile Include="light.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main_file.cpp" />
     <ClCompile Include="oarAnimation.cpp" />

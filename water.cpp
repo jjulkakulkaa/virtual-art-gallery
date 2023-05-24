@@ -14,11 +14,11 @@ Water::Water() {
 	vertexCount = 6;
 
 	dudvTexture = readTexture("./dudv_map.png");
-	normalTexture = readTexture("./normalMap.png");
+	normalTexture = readTexture("./normal_map.png");
 }
 
 
-void Water::render(Camera camera, waterFrameBuffers fbos) {
+void Water::render(Camera camera, waterFrameBuffers fbos, Light light) {
 	spWater->use();
 	glm::mat4 P = glm::perspective(50.0f * PI / 180.0f, 1.0f, 0.01f, 5000.0f);
 	glm::mat4 M = glm::mat4(1.0f);
@@ -27,8 +27,16 @@ void Water::render(Camera camera, waterFrameBuffers fbos) {
 	glUniformMatrix4fv(spWater->u("P"), 1, false, glm::value_ptr(P));
 	glUniformMatrix4fv(spWater->u("V"), 1, false, glm::value_ptr(camera.getPosistion()));
 	glUniformMatrix4fv(spWater->u("M"), 1, false, glm::value_ptr(M));
+
 	vector<float> cameraPosition = { camera.getWidth(), camera.getHeight(), camera.getDepth()};
+	vector<float> lightPosition = light.getPosition();
+	lightPosition = { lightPosition[0], lightPosition[1], lightPosition[2] };
+	vector<float> lightColor = light.getColor();
+	lightColor = { lightColor[0], lightColor[1], lightColor[2] };
+
 	glUniform3fv(spWater->u("cameraPosition"), 1, cameraPosition.data());
+	glUniform3fv(spWater->u("lightPosition"), 1, lightPosition.data());
+	glUniform3fv(spWater->u("lightColor"), 1, lightColor.data());
 
 	glEnableVertexAttribArray(spWater->a("vertex"));
 	glVertexAttribPointer(spWater->a("vertex"), 4, GL_FLOAT, false, 0, vertices.data());

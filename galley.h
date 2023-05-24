@@ -17,8 +17,8 @@ using namespace std;
 
 class Galley {
 private:
-	CustomModel oar = CustomModel("./model/oar.obj");
-	CustomModel galley = CustomModel("./model/galley.obj");
+	CustomModel oar = CustomModel("./model/galley/oar.obj");
+	CustomModel galley = CustomModel("./model/galley/galley.obj");
 	glm::mat4 galleyMatrix;
 
 public:

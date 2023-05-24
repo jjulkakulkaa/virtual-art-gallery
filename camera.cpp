@@ -45,14 +45,14 @@ void Camera::inverPitch() {
 }
 
 void Camera::moveLeft() {
-	float newX = glm::cos(-angle) * x - glm::sin(-angle) * z;
-	float newZ = glm::sin(-angle) * x + glm::cos(-angle) * z;
+	float newX = glm::cos(angle) * x - glm::sin(angle) * z;
+	float newZ = glm::sin(angle) * x + glm::cos(angle) * z;
 	updatePosition(newX, y, newZ);
 }
 
 void Camera::moveRight() {
-	float newX = glm::cos(angle) * x - glm::sin(angle) * z;
-	float newZ = glm::sin(angle) * x + glm::cos(angle) * z;
+	float newX = glm::cos(-angle) * x - glm::sin(-angle) * z;
+	float newZ = glm::sin(-angle) * x + glm::cos(-angle) * z;
 	updatePosition(newX, y, newZ);
 }
 

@@ -1,7 +1,7 @@
 /*
 Niniejszy program jest wolnym oprogramowaniem; możesz go
 rozprowadzać dalej i / lub modyfikować na warunkach Powszechnej
-Licencji Publicznej GNU, wydanej przez Fundację Wolnego
+ cencji Publicznej GNU, wydanej przez Fundację Wolnego
 Oprogramowania - według wersji 2 tej Licencji lub(według twojego
 wyboru) którejś z późniejszych wersji.
 
@@ -23,10 +23,6 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #define BACKWARD 2
 #define LEFT 3
 #define RIGHT 4
-#define FORWARDleft 5
-#define FORWARDright 6
-#define BACKWARDleft 7
-#define BACKWARDright 8
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -42,9 +38,8 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "camera.h"
 #include "terrain.h"
 #include "skybox.h"
+#include "light.h"
 
-float speed_x = 0;//[radiany/s]
-float speed_y = 0;//[radiany/s]
 float leftOarsSpeed = 0;
 float rightOarsSpeed = 0;
 float aspectRatio = 1;
@@ -53,6 +48,7 @@ bool leftMouseButtonPressed = false;
 int direction = NONE;
 
 Camera camera;
+Light light = Light({ 1.0f,1.0f,1.0f,1.0f }, { 0.0f,10.0f, 200.0f,1.0f });
 
 void error_callback(int error, const char* description) {
 	fputs(description, stderr);
@@ -67,26 +63,24 @@ void key_callback(
 ) {
 	if (action == GLFW_PRESS) {
 		if (key == GLFW_KEY_LEFT) {
-			speed_y = -PI;
+			camera.moveLeft();
 		}
 		if (key == GLFW_KEY_RIGHT) {
-			speed_y = PI;
+			camera.moveRight();
 		}
 		if (key == GLFW_KEY_UP) {
-			speed_x = -PI;
+			camera.moveTop();
 		}
 		if (key == GLFW_KEY_DOWN) {
-			speed_x = PI;
+			camera.moveBottom();
 		}
 		if (key == GLFW_KEY_A) {
 			rightOarsSpeed = targetSpeedOfOars;
 			direction = LEFT;
-			
 		}
 		if (key == GLFW_KEY_D) {
 			leftOarsSpeed = targetSpeedOfOars;
 			direction = RIGHT;
-			
 		}
 		if (key == GLFW_KEY_W) {
 			leftOarsSpeed = targetSpeedOfOars;
@@ -99,13 +93,21 @@ void key_callback(
 			direction = BACKWARD;
 		}
 	}
+	if (action == GLFW_REPEAT) {
+		if (key == GLFW_KEY_LEFT) {
+			camera.moveLeft();
+		}
+		if (key == GLFW_KEY_RIGHT) {
+			camera.moveRight();
+		}
+		if (key == GLFW_KEY_UP) {
+			camera.moveTop();
+		}
+		if (key == GLFW_KEY_DOWN) {
+			camera.moveBottom();
+		}
+	}
 	if (action == GLFW_RELEASE) {
-		if (key == GLFW_KEY_LEFT || key == GLFW_KEY_RIGHT) {
-			speed_y = 0;
-		}
-		if (key == GLFW_KEY_UP || key == GLFW_KEY_DOWN) {
-			speed_x = 0;
-		}
 		if (key == GLFW_KEY_A || key == GLFW_KEY_D) {
 			leftOarsSpeed = 0;
 			rightOarsSpeed = 0;
@@ -170,6 +172,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glfwSetCursorPosCallback(window, cursorPosCallback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetWindowSizeCallback(window, windowResizeCallback);
+	light.init();
 }
 
 
@@ -211,8 +214,6 @@ int main(void)
 	waterFrames.initializeRefractionFrameBuffer();
 
 	//Główna pętla
-	float angle_x = 0;
-	float angle_y = 0; 
 	float leftOarsAngle = PI * 100000;
 	float rightOarsAngle = PI * 100000;
 	glfwSetTime(0);
@@ -223,9 +224,6 @@ int main(void)
 
 		glEnable(GL_CLIP_DISTANCE0); // włączenie gl_ClipDistance do obsługi odbicia
 
-
-		angle_x += speed_x * glfwGetTime(); 
-		angle_y += speed_y * glfwGetTime();
 		leftOarsAngle += leftOarsSpeed * glfwGetTime();
 		rightOarsAngle += rightOarsSpeed * glfwGetTime();
 		glfwSetTime(0);
@@ -252,7 +250,7 @@ int main(void)
 		terrain.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
 		galley.render(leftOarsAngle, rightOarsAngle, camera, glm::vec4(0, 1, 0, 0), direction);
 		skybox.render(camera.getPosistion(), glm::vec4(0, 1, 0, 0));
-		water.render(camera, waterFrames);
+		water.render(camera, waterFrames, light);
 		water.updateMoveFactor();
 
 		glfwSwapBuffers(window);

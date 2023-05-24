@@ -31,6 +31,9 @@
     <Filter Include="Pliki źródłowe\skybox">
       <UniqueIdentifier>{58c6f4d7-50b4-4841-9e91-6073d07c574d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\light">
+      <UniqueIdentifier>{e24f639f-2cf7-4e21-9fb0-1076228ca1cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -69,6 +72,9 @@
     <ClInclude Include="skybox.h">
       <Filter>Pliki źródłowe\skybox</Filter>
     </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Pliki źródłowe\light</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lodepng.cpp">
@@ -103,6 +109,9 @@
     </ClCompile>
     <ClCompile Include="waterFrameBuffers.cpp">
       <Filter>Pliki źródłowe\water</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>Pliki źródłowe\light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
