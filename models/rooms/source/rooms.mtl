@@ -1,0 +1,146 @@
+# Blender MTL File: 'None'
+# Material Count: 12
+
+newmtl brickwall1
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\brickwall1_normal.png
+map_Kd .\\models\\rooms\\textures\\brickwall1_baseColor.png
+
+newmtl brickwall1.007
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\brickwall1_normal.png
+map_Kd .\\models\\rooms\\textures\\brickwall1_baseColor.png
+
+newmtl brickwall1.008
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\brickwall1_normal.png
+map_Kd .\\models\\rooms\\textures\\brickwall1_baseColor.png
+
+newmtl brickwall1.009
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\brickwall1_normal.png
+map_Kd .\\models\\rooms\\textures\\brickwall1_baseColor.png
+
+newmtl stonefloor
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\stonefloor_normal.png
+map_Kd .\\models\\rooms\\textures\\stonefloor_baseColor.png
+
+newmtl stonefloor.003
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\stonefloor_normal.png
+map_Kd .\\models\\rooms\\textures\\stonefloor_baseColor.png
+
+newmtl stonefloor.004
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\stonefloor_normal.png
+map_Kd .\\models\\rooms\\textures\\stonefloor_baseColor.png
+
+newmtl stonefloor.005
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\stonefloor_normal.png
+map_Kd .\\models\\rooms\\textures\\stonefloor_baseColor.png
+
+newmtl stonetrims
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\stonetrims_normal.png
+map_Kd .\\models\\rooms\\textures\\stonetrims_baseColor.png
+
+newmtl stonetrims.004
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\stonetrims_normal.png
+map_Kd .\\models\\rooms\\textures\\stonetrims_baseColor.png
+
+newmtl stonetrims.005
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\stonetrims_normal.png
+map_Kd .\\models\\rooms\\textures\\stonetrims_baseColor.png
+
+newmtl stonetrims.006
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Bump .\\models\\rooms\\textures\\stonetrims_normal.png
+map_Kd .\\models\\rooms\\textures\\stonetrims_baseColor.png

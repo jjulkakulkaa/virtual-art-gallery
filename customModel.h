@@ -43,7 +43,7 @@ public:
 
     void loadModel();
 
-    void draw(glm::mat4 P, glm::mat4 V, glm::mat4 M, glm::vec4 vector);
+    void draw(glm::mat4 P, glm::mat4 V, glm::mat4 M);
 };
 
 #endif

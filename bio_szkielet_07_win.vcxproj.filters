@@ -13,23 +13,11 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Pliki źródłowe\water">
-      <UniqueIdentifier>{260f8238-1f87-4158-9be8-5d4e81c9260e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Pliki źródłowe\galley">
-      <UniqueIdentifier>{c3f8d140-2f3b-4814-86b5-ea31e4a35d93}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Pliki źródłowe\camera">
       <UniqueIdentifier>{9f6c0f2e-9897-47c1-a547-1c61c8da7ea9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Pliki źródłowe\terrain">
-      <UniqueIdentifier>{10e1a8a1-69ff-4217-b44f-b5f801101fe5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Pliki źródłowe\customModel">
       <UniqueIdentifier>{1f379523-b530-4895-8162-cd3023a1565d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Pliki źródłowe\skybox">
-      <UniqueIdentifier>{58c6f4d7-50b4-4841-9e91-6073d07c574d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Pliki źródłowe\light">
       <UniqueIdentifier>{e24f639f-2cf7-4e21-9fb0-1076228ca1cd}</UniqueIdentifier>
@@ -48,29 +36,14 @@
     <ClInclude Include="shaderprogram.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="water.h">
-      <Filter>Pliki źródłowe\water</Filter>
-    </ClInclude>
     <ClInclude Include="oarAnimation.h">
       <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="waterFrameBuffers.h">
-      <Filter>Pliki źródłowe\water</Filter>
-    </ClInclude>
-    <ClInclude Include="galley.h">
-      <Filter>Pliki źródłowe\galley</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>Pliki źródłowe\camera</Filter>
     </ClInclude>
-    <ClInclude Include="terrain.h">
-      <Filter>Pliki źródłowe\terrain</Filter>
-    </ClInclude>
     <ClInclude Include="customModel.h">
       <Filter>Pliki źródłowe\customModel</Filter>
-    </ClInclude>
-    <ClInclude Include="skybox.h">
-      <Filter>Pliki źródłowe\skybox</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
       <Filter>Pliki źródłowe\light</Filter>
@@ -86,29 +59,11 @@
     <ClCompile Include="shaderprogram.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="oarAnimation.cpp">
-      <Filter>Pliki źródłowe\galley</Filter>
-    </ClCompile>
-    <ClCompile Include="galley.cpp">
-      <Filter>Pliki źródłowe\galley</Filter>
-    </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>Pliki źródłowe\camera</Filter>
     </ClCompile>
-    <ClCompile Include="water.cpp">
-      <Filter>Pliki źródłowe\water</Filter>
-    </ClCompile>
-    <ClCompile Include="terrain.cpp">
-      <Filter>Pliki źródłowe\terrain</Filter>
-    </ClCompile>
     <ClCompile Include="customModel.cpp">
       <Filter>Pliki źródłowe\customModel</Filter>
-    </ClCompile>
-    <ClCompile Include="skybox.cpp">
-      <Filter>Pliki źródłowe\skybox</Filter>
-    </ClCompile>
-    <ClCompile Include="waterFrameBuffers.cpp">
-      <Filter>Pliki źródłowe\water</Filter>
     </ClCompile>
     <ClCompile Include="light.cpp">
       <Filter>Pliki źródłowe\light</Filter>
@@ -126,12 +81,6 @@
     </None>
     <None Include="v_lamberttextured.glsl">
       <Filter>Pliki zasobów</Filter>
-    </None>
-    <None Include="f_water.glsl">
-      <Filter>Pliki źródłowe\water</Filter>
-    </None>
-    <None Include="v_water.glsl">
-      <Filter>Pliki źródłowe\water</Filter>
     </None>
     <None Include="f_textured.glsl">
       <Filter>Pliki zasobów</Filter>

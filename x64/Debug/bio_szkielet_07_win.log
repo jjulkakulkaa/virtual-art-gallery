@@ -1,6 +1,1 @@
-﻿  galley.cpp
-  main_file.cpp
-C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\main_file.cpp(227,34): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\main_file.cpp(228,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
-  bio_szkielet_07_win.vcxproj -> C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\x64\Debug\bio_szkielet_07_win.exe
+﻿  bio_szkielet_07_win.vcxproj -> C:\Users\jarom\Desktop\STUDIA\4 SEMESTR\virtualArtMuseum\x64\Debug\bio_szkielet_07_win.exe
