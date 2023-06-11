@@ -19,9 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="animation.h" />
+    <ClInclude Include="animator.h" />
+    <ClInclude Include="assimp_glm.h" />
+    <ClInclude Include="bone.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="constants.h" />
     <ClInclude Include="customModel.h" />
+    <ClInclude Include="customModelAnimated.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="model.h" />
@@ -29,8 +34,12 @@
     <ClInclude Include="shaderprogram.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="animation.cpp" />
+    <ClCompile Include="animator.cpp" />
+    <ClCompile Include="bone.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="customModel.cpp" />
+    <ClCompile Include="customModelAnimated.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main_file.cpp" />
@@ -38,9 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="f_constant.glsl" />
+    <None Include="f_animatedLambertTextured.glsl" />
     <None Include="f_lamberttextured.glsl" />
     <None Include="f_textured.glsl" />
     <None Include="v_constant.glsl" />
+    <None Include="v_animatedLambertTextured.glsl" />
     <None Include="v_lamberttextured.glsl" />
     <None Include="v_textured.glsl" />
   </ItemGroup>

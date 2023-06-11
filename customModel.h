@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef CUSTOM_MODEL_H
-#define CUSTOM_MODEL_H
-
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -22,9 +19,9 @@
 
 using namespace std;
 
-GLuint readTexture(const char* filename);
+GLuint readTexture2(const char* filename);
 
-struct BasicMesh {
+struct BasicMeshM {
     int NumVertices = 0;
     vector<glm::vec4> vertices = vector<glm::vec4>();
     vector<glm::vec4> normals = vector<glm::vec4>();
@@ -36,14 +33,12 @@ struct BasicMesh {
 class CustomModel {
 private:
     string modelPath;
-    
+
 public:
-    vector<BasicMesh> Meshes = vector<BasicMesh>();
+    vector<BasicMeshM> Meshes = vector<BasicMeshM>();
     CustomModel(std::string filePath);
 
     void loadModel();
 
     void draw(glm::mat4 P, glm::mat4 V, glm::mat4 M);
 };
-
-#endif

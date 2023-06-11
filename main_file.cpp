@@ -34,16 +34,19 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "shaderprogram.h"
 #include "light.h"
 #include "camera.h"
+#include "customModelAnimated.h"
 #include "customModel.h"
+#include "animation.h"
+#include "animator.h"
 
 float aspectRatio = 1;
+float PI = 3.14;
 
 Camera camera;
-Light light = Light({ 1.0f,1.0f,1.0f,1.0f }, { 0.0f,0.0f, 0.0f,1.0f });
+//Light light = Light({ 1.0f,1.0f,1.0f,1.0f }, { 0.0f,0.0f, 0.0f,1.0f });
 
-CustomModel Maria(".\\models\\maria-theresia\\source\\maria.obj");
-CustomModel artGallery(".\\models\\art-galery\\source\\art_galery.obj");
-CustomModel rooms(".\\models\\rooms\\source\\rooms.obj");
+AnimatedModel model(".\\models\\mma_kick\\source\\mma_kick.dae");
+CustomModel fighter(".\\models\\mma_kick\\source\\mma_kick.dae");
 
 void error_callback(int error, const char* description) {
 	fputs(description, stderr);
@@ -95,6 +98,16 @@ void scrollCallback(GLFWwindow* window, double xOffset, double yOffset) {
 	}
 }
 
+void prepareAnimation(Animator& animator, float deltaTime) {
+	animator.UpdateAnimation(deltaTime);
+	spAnimatedLambertTextured->use();
+	auto transforms = animator.GetFinalBoneMatrices();
+	for (int i = 0; i < transforms.size(); ++i) {
+		string val = "finalBonesMatrices[" + std::to_string(i) + "]";
+		glUniformMatrix4fv(spAnimatedLambertTextured->u(val.c_str()), 1, false, glm::value_ptr(transforms[i]));
+	}
+}
+
 void windowResizeCallback(GLFWwindow* window, int width, int height) {
 	if (height == 0) return;
 	aspectRatio = (float)width / (float)height;
@@ -111,8 +124,9 @@ void initOpenGLProgram(GLFWwindow* window) {
 	glfwSetScrollCallback(window, scrollCallback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetWindowSizeCallback(window, windowResizeCallback);
-	light.init();
-	rooms.loadModel();
+	//light.init();
+	model.loadModel();
+	fighter.loadModel();
 }
 
 
@@ -127,37 +141,50 @@ int main(void)
 	glfwSetErrorCallback(error_callback);
 	if (!glfwInit()) { 
 		fprintf(stderr, "Nie można zainicjować GLFW.\n");
-		exit(EXIT_FAILURE);
+		return -1;
 	}
 	window = glfwCreateWindow(1024, 1024, "Galley", NULL, NULL);
 	if (!window)
 	{
 		fprintf(stderr, "Nie można utworzyć okna.\n");
 		glfwTerminate();
-		exit(EXIT_FAILURE);
+		return -1;
 	}
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
 	if (glewInit() != GLEW_OK) { //Zainicjuj bibliotekę GLEW
 		fprintf(stderr, "Nie można zainicjować GLEW.\n");
-		exit(EXIT_FAILURE);
+		return -1;
 	}
 	initOpenGLProgram(window); //Operacje inicjujące
+	Animation fightAnimation(".\\models\\mma_kick\\source\\mma_kick.dae", &model);
+	Animator animator(&fightAnimation);
 
 	glfwSetTime(0);
+	float lastFrame = 0;
+	float deltaTime = 0;
 
-	while (!glfwWindowShouldClose(window)) 
+	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glfwSetTime(0);
+		float currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
+		prepareAnimation(animator, deltaTime);
 
 		glm::mat4 M = glm::mat4(1.0f);
-		M = glm::scale(M, glm::vec3(2.2f, 2.2f, 2.2f));
+		M = glm::scale(M, glm::vec3(100.0f, 100.0f, 100.0f));
 		glm::mat4 P = glm::perspective(glm::radians(50.0f), 1.0f, 1.0f, 500.0f);
 		glm::mat4 V = camera.getPosistion();
 
-		rooms.draw(P, V, M);
+		model.draw(P, V, M);
+		M = glm::rotate(M, PI, glm::vec3(0.0f, 1.0f, 0.0f));
+		model.draw(P, V, M);
+
+		M = glm::scale(M, glm::vec3(0.01f, 0.01f, 0.01f));
+		fighter.draw(P, V, M);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -171,5 +198,5 @@ int main(void)
 
 	glfwDestroyWindow(window); 
 	glfwTerminate();
-	exit(EXIT_SUCCESS);
+	return 0;
 }

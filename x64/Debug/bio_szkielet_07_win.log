@@ -1,1 +1,5 @@
-﻿  bio_szkielet_07_win.vcxproj -> C:\Users\jarom\Desktop\STUDIA\4 SEMESTR\virtualArtMuseum\x64\Debug\bio_szkielet_07_win.exe
+﻿  main_file.cpp
+C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\virtualArtMuseum\animation.h(27,44): warning C4244: 'return': conversion from 'int' to 'float', possible loss of data
+C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\virtualArtMuseum\main_file.cpp(43,16): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\virtualArtMuseum\main_file.cpp(171,22): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  bio_szkielet_07_win.vcxproj -> C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\virtualArtMuseum\x64\Debug\bio_szkielet_07_win.exe

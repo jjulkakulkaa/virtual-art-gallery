@@ -22,6 +22,15 @@
     <Filter Include="Pliki źródłowe\light">
       <UniqueIdentifier>{e24f639f-2cf7-4e21-9fb0-1076228ca1cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\converters">
+      <UniqueIdentifier>{709d3eb0-50e9-4fbb-8a92-8e890a058dbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\customModel\animated">
+      <UniqueIdentifier>{695356c9-6a7b-417e-84d4-939d38c20a79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\customModel\basic">
+      <UniqueIdentifier>{3aca62a0-0e75-4476-9a8a-60e7c57dbf4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="constants.h">
@@ -42,11 +51,26 @@
     <ClInclude Include="camera.h">
       <Filter>Pliki źródłowe\camera</Filter>
     </ClInclude>
-    <ClInclude Include="customModel.h">
-      <Filter>Pliki źródłowe\customModel</Filter>
-    </ClInclude>
     <ClInclude Include="light.h">
       <Filter>Pliki źródłowe\light</Filter>
+    </ClInclude>
+    <ClInclude Include="assimp_glm.h">
+      <Filter>Pliki źródłowe\converters</Filter>
+    </ClInclude>
+    <ClInclude Include="animation.h">
+      <Filter>Pliki źródłowe\customModel\animated</Filter>
+    </ClInclude>
+    <ClInclude Include="animator.h">
+      <Filter>Pliki źródłowe\customModel\animated</Filter>
+    </ClInclude>
+    <ClInclude Include="bone.h">
+      <Filter>Pliki źródłowe\customModel\animated</Filter>
+    </ClInclude>
+    <ClInclude Include="customModelAnimated.h">
+      <Filter>Pliki źródłowe\customModel\animated</Filter>
+    </ClInclude>
+    <ClInclude Include="customModel.h">
+      <Filter>Pliki źródłowe\customModel\basic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,24 +86,36 @@
     <ClCompile Include="camera.cpp">
       <Filter>Pliki źródłowe\camera</Filter>
     </ClCompile>
-    <ClCompile Include="customModel.cpp">
-      <Filter>Pliki źródłowe\customModel</Filter>
-    </ClCompile>
     <ClCompile Include="light.cpp">
       <Filter>Pliki źródłowe\light</Filter>
+    </ClCompile>
+    <ClCompile Include="animation.cpp">
+      <Filter>Pliki źródłowe\customModel\animated</Filter>
+    </ClCompile>
+    <ClCompile Include="animator.cpp">
+      <Filter>Pliki źródłowe\customModel\animated</Filter>
+    </ClCompile>
+    <ClCompile Include="bone.cpp">
+      <Filter>Pliki źródłowe\customModel\animated</Filter>
+    </ClCompile>
+    <ClCompile Include="customModelAnimated.cpp">
+      <Filter>Pliki źródłowe\customModel\animated</Filter>
+    </ClCompile>
+    <ClCompile Include="customModel.cpp">
+      <Filter>Pliki źródłowe\customModel\basic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="f_constant.glsl">
       <Filter>Pliki zasobów</Filter>
     </None>
-    <None Include="f_lamberttextured.glsl">
+    <None Include="f_animatedLambertTextured.glsl">
       <Filter>Pliki zasobów</Filter>
     </None>
     <None Include="v_constant.glsl">
       <Filter>Pliki zasobów</Filter>
     </None>
-    <None Include="v_lamberttextured.glsl">
+    <None Include="v_animatedLambertTextured.glsl">
       <Filter>Pliki zasobów</Filter>
     </None>
     <None Include="f_textured.glsl">
@@ -88,5 +124,9 @@
     <None Include="v_textured.glsl">
       <Filter>Pliki zasobów</Filter>
     </None>
+    <None Include="v_lamberttextured.glsl">
+      <Filter>Pliki zasobów</Filter>
+    </None>
+    <None Include="f_lamberttextured.glsl" />
   </ItemGroup>
 </Project>

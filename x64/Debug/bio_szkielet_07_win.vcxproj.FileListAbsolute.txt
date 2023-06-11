@@ -1,3 +1,4 @@
 C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\grafika\project\x64\Debug\bio_szkielet_07_win.exe
 C:\Users\jarom\Desktop\STUDIA\4 SEMESTR\galley\x64\Debug\bio_szkielet_07_win.exe
 C:\Users\jarom\Desktop\STUDIA\4 SEMESTR\virtualArtMuseum\x64\Debug\bio_szkielet_07_win.exe
+C:\Users\karko\OneDrive\Pulpit\studia\semestr 4\virtualArtMuseum\x64\Debug\bio_szkielet_07_win.exe

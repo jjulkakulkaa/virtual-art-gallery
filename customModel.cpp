@@ -1,13 +1,13 @@
 #include "customModel.h"
 #include <stdbool.h>
 
-GLuint readTexture(const char* filename) {
+GLuint readTexture2(const char* filename) {
     GLuint tex;
     glActiveTexture(GL_TEXTURE0);
 
     //Wczytanie do pami?ci komputera
     std::vector<unsigned char> image;   //Alokuj wektor do wczytania obrazka
-    unsigned width, height;   //Zmienne do których wczytamy wymiary obrazka
+    unsigned width, height;   //Zmienne do kt?rych wczytamy wymiary obrazka
     //Wczytaj obrazek
     unsigned error = lodepng::decode(image, width, height, filename);
 
@@ -43,7 +43,7 @@ void CustomModel::loadModel() {
         if (scene->HasMeshes()) {
             for (int numOfMesh = 0; numOfMesh < scene->mNumMeshes; numOfMesh++) {
                 aiMesh* mesh = scene->mMeshes[numOfMesh];
-                BasicMesh meshStruct;
+                BasicMeshM meshStruct;
                 meshStruct.NumVertices = mesh->mNumVertices;
                 // Wczytanie wszystkich wierzcholkow, wektorow normalnych i wspolrzednych teksturowania
                 for (int i = 0; i < mesh->mNumVertices; i++) {
@@ -70,7 +70,7 @@ void CustomModel::loadModel() {
                 for (int i = 0; i < material->GetTextureCount(aiTextureType_DIFFUSE); i++) {
                     aiString str;
                     material->GetTexture(aiTextureType_DIFFUSE, i, &str);
-                    meshStruct.texture = readTexture(str.C_Str());
+                    meshStruct.texture = readTexture2(str.C_Str());
                 }
 
                 Meshes.push_back(meshStruct);
